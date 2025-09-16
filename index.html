@@ -42,16 +42,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صراخ اليوتيوب الملعون</title>
+    <title>إشعارات الرعب الملعونة</title>
     <style>
         body { 
-            background: black; 
+            background: white; 
             overflow: hidden; 
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            transition: background 1s;
         }
         #horror {
             position: absolute;
@@ -59,94 +57,90 @@
             height: 100%;
             top: 0;
             left: 0;
-            display: none;
         }
-        .blood-text {
-            position: absolute;
-            color: red;
-            font-size: 60px;
-            font-family: 'Arial', sans-serif;
-            text-shadow: 0 0 15px red;
-            animation: pulse 0.2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        #startScreen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: red;
-            font-family: 'Arial', sans-serif;
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-size: 18px;
             text-align: center;
+            animation: slideIn 0.5s ease-out, fadeOut 1s 2s forwards;
+            z-index: 1000;
         }
-        #startButton {
-            padding: 20px 40px;
-            font-size: 24px;
-            background: red;
-            color: black;
-            border: none;
-            cursor: pointer;
-            text-shadow: 0 0 10px black;
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
-        #startButton:hover {
-            background: darkred;
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        #hiddenAudio {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="startScreen">
-        <h1>اضغط لتبدأ الرعب!</h1>
-        <button id="startButton">ابدأ الرعب</button>
-    </div>
     <div id="horror">
-        <div id="bloodText"></div>
+        <div id="notificationArea"></div>
     </div>
+    <audio id="hiddenAudio" autoplay>
+        <source src="https://www.dropbox.com/scl/fi/3z8m7k9v2x1y4q5w6r7t8/youtube_scream.mp3?rlkey=8j2k9v3x5y7w1q4r6t8&raw=1" type="audio/mpeg">
+    </audio>
     <script>
-        const startScreen = document.getElementById('startScreen');
-        const horrorDiv = document.getElementById('horror');
-        const startButton = document.getElementById('startButton');
+        const messages = [
+            'تم اختراق جهازك!',
+            'تم أخذ جميع ملفات جهازك!',
+            'تم نقل جميع الصور وكلمة السر من جهازك لسيرفر خاص!',
+            'تم الاختراق! أنت ضحية الآن!',
+            'لا تحاول إغلاق الموقع! سوف تنفجر البطارية بعد 5 دقائق!'
+        ];
 
         function flashScreen() {
+            const horrorDiv = document.getElementById('horror');
             setInterval(() => {
-                horrorDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
+                document.body.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
                 horrorDiv.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`;
             }, 100);
         }
 
         function playCustomSound() {
-            const audio = new Audio('https://www.dropbox.com/scl/fi/3z8m7k9v2x1y4q5w6r7t8/youtube_scream.mp3?rlkey=8j2k9v3x5y7w1q4r6t8&raw=1');
-            audio.loop = true;
-            audio.volume = 1;
-            audio.play();
+            const audio = document.getElementById('hiddenAudio');
+            audio.volume = 0.1; // Start low to bypass browser restrictions
+            audio.play().then(() => {
+                setTimeout(() => {
+                    audio.volume = 1; // Ramp up volume for maximum scare
+                }, 500);
+            }).catch(err => console.log('Error bypassed, ya khara'));
         }
 
-        function spawnBloodText() {
-            const bloodTextDiv = document.getElementById('bloodText');
+        function spawnNotification() {
+            const notificationArea = document.getElementById('notificationArea');
+            let index = 0;
             setInterval(() => {
-                const blood = document.createElement('div');
-                blood.className = 'blood-text';
-                blood.innerText = 'صراخك هيموتك!';
-                blood.style.left = Math.random() * 80 + '%';
-                blood.style.top = Math.random() * 80 + '%';
-                bloodTextDiv.appendChild(blood);
-                setTimeout(() => blood.remove(), 800);
-            }, 400);
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerText = messages[index];
+                notificationArea.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+                index = (index + 1) % messages.length;
+            }, 3500);
         }
 
-        startButton.addEventListener('click', () => {
-            startScreen.style.display = 'none';
-            horrorDiv.style.display = 'block';
-            flashScreen();
-            playCustomSound();
-            spawnBloodText();
+        window.onload = () => {
             setTimeout(() => {
-                alert('!روحك هتطلع يا كلب، التلفون ملعون');
-            }, 1000);
-        });
+                playCustomSound();
+                flashScreen();
+                spawnNotification();
+                setTimeout(() => {
+                    alert('جهازك تحت السيطرة! لا يوجد مفر، يا كلب!');
+                }, 1000);
+            }, 500); // Delay to show white background first
+        };
     </script>
 </body>
 </html>
