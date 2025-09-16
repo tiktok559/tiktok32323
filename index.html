@@ -42,19 +42,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صراخ الجحيم</title>
+    <title>صراخ اليوتيوب الملعون</title>
     <style>
         body { 
             background: black; 
             overflow: hidden; 
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        #scream {
+        #horror {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
+            display: none;
         }
         .blood-text {
             position: absolute;
@@ -69,44 +74,79 @@
             50% { opacity: 0.4; transform: scale(1.2); }
             100% { opacity: 1; transform: scale(1); }
         }
+        #startScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: red;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        #startButton {
+            padding: 20px 40px;
+            font-size: 24px;
+            background: red;
+            color: black;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 0 10px black;
+        }
+        #startButton:hover {
+            background: darkred;
+        }
     </style>
 </head>
 <body>
-    <div id="scream"></div>
+    <div id="startScreen">
+        <h1>اضغط لتبدأ الرعب!</h1>
+        <button id="startButton">ابدأ الرعب</button>
+    </div>
+    <div id="horror">
+        <div id="bloodText"></div>
+    </div>
     <script>
+        const startScreen = document.getElementById('startScreen');
+        const horrorDiv = document.getElementById('horror');
+        const startButton = document.getElementById('startButton');
+
         function flashScreen() {
-            const screamDiv = document.getElementById('scream');
             setInterval(() => {
-                screamDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
-                screamDiv.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`;
+                horrorDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
+                horrorDiv.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`;
             }, 100);
         }
-        function playScreamSound() {
-            const audio = new Audio('https://www.myinstants.com/media/sounds/bloodcurdling-scream.mp3');
+
+        function playCustomSound() {
+            const audio = new Audio('https://www.dropbox.com/scl/fi/3z8m7k9v2x1y4q5w6r7t8/youtube_scream.mp3?rlkey=8j2k9v3x5y7w1q4r6t8&raw=1');
             audio.loop = true;
             audio.volume = 1;
             audio.play();
         }
-        function spawnScreamText() {
-            const screamDiv = document.getElementById('scream');
+
+        function spawnBloodText() {
+            const bloodTextDiv = document.getElementById('bloodText');
             setInterval(() => {
                 const blood = document.createElement('div');
                 blood.className = 'blood-text';
                 blood.innerText = 'صراخك هيموتك!';
                 blood.style.left = Math.random() * 80 + '%';
                 blood.style.top = Math.random() * 80 + '%';
-                screamDiv.appendChild(blood);
+                bloodTextDiv.appendChild(blood);
                 setTimeout(() => blood.remove(), 800);
             }, 400);
         }
-        window.onload = () => {
+
+        startButton.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            horrorDiv.style.display = 'block';
             flashScreen();
-            playScreamSound();
-            spawnScreamText();
+            playCustomSound();
+            spawnBloodText();
             setTimeout(() => {
                 alert('!روحك هتطلع يا كلب، التلفون ملعون');
             }, 1000);
-        };
+        });
     </script>
 </body>
 </html>
