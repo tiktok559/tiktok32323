@@ -43,34 +43,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رعب التلفون</title>
+    <title>جحيم التلفون</title>
     <style>
-        body { background: black; overflow: hidden; }
-        #scary { position: absolute; width: 100%; height: 100%; }
+        body { 
+            background: black; 
+            overflow: hidden; 
+            margin: 0;
+        }
+        #horror {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .blood {
+            position: absolute;
+            color: red;
+            font-size: 50px;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 0 0 10px red;
+            animation: flicker 0.1s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <div id="scary"></div>
+    <div id="horror"></div>
     <script>
-        function shakeScreen() {
-            const scaryDiv = document.getElementById('scary');
+        function insaneShake() {
+            const horrorDiv = document.getElementById('horror');
             setInterval(() => {
-                scaryDiv.style.left = Math.random() * 100 + 'px';
-                scaryDiv.style.top = Math.random() * 100 + 'px';
-                scaryDiv.style.background = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
-            }, 100);
+                horrorDiv.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+                horrorDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
+            }, 50);
         }
-        function playCreepySound() {
-            const audio = new Audio('https://www.myinstants.com/media/sounds/creepy-noise.mp3');
+        function playHorrorSound() {
+            const audio = new Audio('https://www.myinstants.com/media/sounds/horror-scream.mp3');
             audio.loop = true;
+            audio.volume = 1;
             audio.play();
         }
+        function spawnBloodText() {
+            const horrorDiv = document.getElementById('horror');
+            setInterval(() => {
+                const blood = document.createElement('div');
+                blood.className = 'blood';
+                blood.innerText = 'دمك هيترشح!';
+                blood.style.left = Math.random() * 80 + '%';
+                blood.style.top = Math.random() * 80 + '%';
+                horrorDiv.appendChild(blood);
+                setTimeout(() => blood.remove(), 1000);
+            }, 500);
+        }
         window.onload = () => {
-            shakeScreen();
-            playCreepySound();
+            insaneShake();
+            playHorrorSound();
+            spawnBloodText();
             setTimeout(() => {
-                alert('!مات يا كلب، التلفون بتاعك انخطف');
-            }, 2000);
+                alert('!هتموت يا كلب، جهازك فيه لعنة');
+            }, 1500);
         };
     </script>
 </body>
