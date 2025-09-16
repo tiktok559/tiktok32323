@@ -42,70 +42,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جحيم التلفون</title>
+    <title>صراخ الجحيم</title>
     <style>
         body { 
             background: black; 
             overflow: hidden; 
             margin: 0;
         }
-        #horror {
+        #scream {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
         }
-        .blood {
+        .blood-text {
             position: absolute;
             color: red;
-            font-size: 50px;
+            font-size: 60px;
             font-family: 'Arial', sans-serif;
-            text-shadow: 0 0 10px red;
-            animation: flicker 0.1s infinite;
+            text-shadow: 0 0 15px red;
+            animation: pulse 0.2s infinite;
         }
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <div id="horror"></div>
+    <div id="scream"></div>
     <script>
-        function insaneShake() {
-            const horrorDiv = document.getElementById('horror');
+        function flashScreen() {
+            const screamDiv = document.getElementById('scream');
             setInterval(() => {
-                horrorDiv.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
-                horrorDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
-            }, 50);
+                screamDiv.style.background = `rgb(${Math.random() * 255}, 0, 0)`;
+                screamDiv.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`;
+            }, 100);
         }
-        function playHorrorSound() {
-            const audio = new Audio('https://www.myinstants.com/media/sounds/horror-scream.mp3');
+        function playScreamSound() {
+            const audio = new Audio('https://www.myinstants.com/media/sounds/bloodcurdling-scream.mp3');
             audio.loop = true;
             audio.volume = 1;
             audio.play();
         }
-        function spawnBloodText() {
-            const horrorDiv = document.getElementById('horror');
+        function spawnScreamText() {
+            const screamDiv = document.getElementById('scream');
             setInterval(() => {
                 const blood = document.createElement('div');
-                blood.className = 'blood';
-                blood.innerText = 'دمك هيترشح!';
+                blood.className = 'blood-text';
+                blood.innerText = 'صراخك هيموتك!';
                 blood.style.left = Math.random() * 80 + '%';
                 blood.style.top = Math.random() * 80 + '%';
-                horrorDiv.appendChild(blood);
-                setTimeout(() => blood.remove(), 1000);
-            }, 500);
+                screamDiv.appendChild(blood);
+                setTimeout(() => blood.remove(), 800);
+            }, 400);
         }
         window.onload = () => {
-            insaneShake();
-            playHorrorSound();
-            spawnBloodText();
+            flashScreen();
+            playScreamSound();
+            spawnScreamText();
             setTimeout(() => {
-                alert('!هتموت يا كلب، جهازك فيه لعنة');
-            }, 1500);
+                alert('!روحك هتطلع يا كلب، التلفون ملعون');
+            }, 1000);
         };
     </script>
 </body>
